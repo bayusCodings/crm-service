@@ -11,7 +11,8 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "dev": "ts-node src/server.ts",
-    "watch": "nodemon"
+    "watch": "nodemon",
+    "seed": "ts-node src/seeder"
   },
   "keywords": [],
   "author": "Abayomi",
@@ -19,9 +20,11 @@
   "dependencies": {
     "@types/cors": "^2.8.12",
     "cors": "^2.8.5",
+    "csvtojson": "^2.0.10",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-winston": "^4.2.0",
+    "formidable": "^2.0.1",
     "joi": "^17.6.0",
     "mongoose": "^6.5.3",
     "supertest": "^6.2.3",

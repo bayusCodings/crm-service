@@ -8,6 +8,12 @@ interface IAgent {
   activeMessageCount: number;
 }
 
+interface ICategory {
+  _id?: Types.ObjectId,
+  name: string;
+  priority: number;
+}
+
 interface IMessage {
   _id: Types.ObjectId,
   userId: string;
@@ -21,5 +27,6 @@ interface IMessage {
 
 export {
   IAgent,
+  ICategory,
   IMessage
 }

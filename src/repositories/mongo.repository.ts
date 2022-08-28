@@ -13,6 +13,11 @@ class MongoRepository<T> {
     return this.model.create(data);
   }
 
+  insertMany(data: T[]) {
+    logger.debug('MongoRepository.insertMany(%o)', data);
+    return this.model.insertMany(data);
+  }
+
   save(id: string | Types.ObjectId, data: UpdateQuery<T>, _new = true) {
     logger.debug('MongoRepository.save(%s, %o)', id, data);
     return this.model.findByIdAndUpdate(id, data, { new: _new }).lean();
@@ -21,6 +26,11 @@ class MongoRepository<T> {
   findAll(query: FilterQuery<T> = {}) {
     logger.debug('MongoRepository.findAll(%s)', query);
     return this.model.find(query).lean();
+  }
+
+  findOne(query: FilterQuery<T> = {}) {
+    logger.debug('MongoRepository.findOne(%s)', query);
+    return this.model.findOne(query).lean();
   }
 
   findById(id: string) {
@@ -36,6 +46,11 @@ class MongoRepository<T> {
   deleteById(id: string) {
     logger.debug('MongoRepository.deleteById(%s)', id);
     return this.model.deleteOne({ _id: id });
+  }
+
+  deleteMany(query: FilterQuery<T> = {}) {
+    logger.debug('MongoRepository.deleteMany(%o)', query);
+    return this.model.deleteMany(query);
   }
 }
 

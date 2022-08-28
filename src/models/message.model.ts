@@ -36,7 +36,8 @@ const messageSchema = new Schema<IMessage>(
 
 messageSchema.index({
   userId: 'text',
-  body: 'text'
+  body: 'text',
+  category: 'text'
 });
 
 export default model<IMessage>('Message', messageSchema);

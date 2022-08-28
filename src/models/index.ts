@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { config } from '../config';
 
 import Agent from './agent.model';
+import Category from './category.model';
 import Message from './message.model';
 
 mongoose.Promise = global.Promise;
@@ -20,5 +21,6 @@ mongoose.connection.on('error', (err: any) => {
 
 export {
   Agent,
+  Category,
   Message
 }

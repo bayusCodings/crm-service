@@ -224,8 +224,8 @@
         "parameters": [
           {
             "in": "query",
-            "name": "keyword",
-            "description": "The search keyword",
+            "name": "phrase",
+            "description": "The search phrase",
             "schema": {
               "type": "string",
               "minimum": 1

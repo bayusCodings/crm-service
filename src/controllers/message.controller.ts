@@ -23,9 +23,9 @@ class MessageController {
   }
 
   async search(req: Request, res: Response) {
-    const { keyword } = req.query;
+    const { phrase } = req.query;
 
-    const response = await MessageService.search(<string> keyword);
+    const response = await MessageService.search(<string> phrase);
     res.status(200).json(response);
   }
 }

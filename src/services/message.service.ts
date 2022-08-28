@@ -1,4 +1,4 @@
-import { AgentRepository, MessageRepository } from '../repositories';
+import { AgentRepository, CategoryRepository, MessageRepository } from '../repositories';
 import { IMessage } from '../models/interfaces';
 import { asApiResponse } from '../types/response.dto';
 import { InternalServerException, NotFoundException } from '../exceptions';
@@ -15,12 +15,21 @@ class MessageService {
     return agents[0];
   }
 
+  private async validateCategory(category: string) {
+    const isValidCategory = await CategoryRepository.findByCategoryName(category)
+    return (isValidCategory) ? category : 'uncategorized';
+  }
+
   async create(data: IMessage) {
     logger.debug('MessageService.create(%o)', data);
     try {
       const agent = await this.getAvailableAgent()
       data.agent = agent._id;
       data.date = new Date();
+
+      if (data.category) {
+        data.category = await this.validateCategory(data.category)
+      }
 
       const message = await MessageRepository.insert(data);
       
@@ -66,7 +75,7 @@ class MessageService {
   async fetchAgentMessages(agentId: string) {
     logger.debug('MessageService.fetchAgentMessages(%s)', agentId);
     try {
-      const messages = await MessageRepository.findAll({ agent: agentId });
+      const messages = await MessageRepository.fetchAgentMessagesByPriority(agentId);
       return asApiResponse(messages, 'Successfully retrieved agent messages');
     } catch(error: any) {
       logger.error('Failed to retrieved agent messages. %o', error);
@@ -74,13 +83,13 @@ class MessageService {
     }
   }
 
-  async search(keyword: string) {
-    logger.debug('MessageService.search(%s)', keyword);
+  async search(phrase: string) {
+    logger.debug('MessageService.search(%s)', phrase);
     try {
       const messages = await MessageRepository.findAll({
         $or: [
-          { userId: { $regex: new RegExp(keyword), $options: 'i' } },
-          { body: { $regex: new RegExp(keyword), $options: 'i' } }
+          { userId: { $regex: new RegExp(phrase), $options: 'i' } },
+          { body: { $regex: new RegExp(phrase), $options: 'i' } }
         ]
       }).populate('agent');
       return asApiResponse(messages, 'Successfully retrieved to message');
