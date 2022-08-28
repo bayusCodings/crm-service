@@ -1,0 +1,14 @@
+version: "3.2"
+services:
+  crm-service:
+    container_name: crm-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: crm-service
+    networks:
+      - service-network
+    ports:
+      - "3021:3021"
+    env_file:
+      - .env

@@ -1,0 +1,104 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Documentation for CRM Service",
+    "version": "1.0.0",
+    "title": "CRM Service",
+    "contact": {
+      "email": "ogunbayo.abayo@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3021",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Agent",
+      "description": "List of endpoints for agents"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/agent": {
+      "post": {
+        "tags": [
+          "Agent"
+        ],
+        "summary": "Create new agent",
+        "description": "",
+        "operationId": "Agent",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Agent object that is required for store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "status": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+
+    "/agents": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "summary": "Fetch all agents",
+        "description": "",
+        "operationId": "FetchAllAgents",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "status": "success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Agent": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
