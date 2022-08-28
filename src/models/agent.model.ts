@@ -16,6 +16,10 @@ const agentSchema = new Schema<IAgent>(
       unique: true,
       required: true
     },
+    activeMessageCount: {
+      type: Number,
+      default: 0
+    }
   },
   { timestamps: true }
 );

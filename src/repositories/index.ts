@@ -1,7 +1,7 @@
 import AgentRepository from './agent.repository';
-import QuestionRepository from './question.repository';
+import MessageRepository from './message.repository';
 
 export {
   AgentRepository,
-  QuestionRepository
+  MessageRepository
 }

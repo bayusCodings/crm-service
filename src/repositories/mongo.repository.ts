@@ -1,8 +1,8 @@
-import { FilterQuery, Model, UpdateQuery } from 'mongoose';
+import { FilterQuery, Model, Types, UpdateQuery } from 'mongoose';
 import logger from '../logger';
 
 class MongoRepository<T> {
-  private model: Model<T>;
+  protected model: Model<T>;
 
   constructor(model: Model<T>) {
     this.model = model;
@@ -13,7 +13,7 @@ class MongoRepository<T> {
     return this.model.create(data);
   }
 
-  save(id: string, data: UpdateQuery<T>, _new = true) {
+  save(id: string | Types.ObjectId, data: UpdateQuery<T>, _new = true) {
     logger.debug('MongoRepository.save(%s, %o)', id, data);
     return this.model.findByIdAndUpdate(id, data, { new: _new }).lean();
   }

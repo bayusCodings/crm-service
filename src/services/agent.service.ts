@@ -1,7 +1,7 @@
 import { AgentRepository } from '../repositories';
 import { IAgent } from '../models/interfaces';
 import { asApiResponse } from '../types/response.dto';
-import { InternalServerException, UnprocessanleEntityException } from '../exceptions';
+import { InternalServerException, UnprocessableEntityException } from '../exceptions';
 import logger from '../logger';
 
 class AgentService {
@@ -12,14 +12,13 @@ class AgentService {
     logger.debug('AgentService.create(%o)', data);
     try {
       data.email = data.email.toLowerCase();
-
       const agent = await AgentRepository.insert(data);
       return asApiResponse(agent, 'Successfully created new agent')
     } catch(error: any) {
       if (error.name === 'MongoServerError' && error.code === 11000) {
         // Duplicate email
         logger.error('Failed to create new agent, duplicate email: %s', data.email);
-        throw new UnprocessanleEntityException('Failed to create new agent, duplicate email');
+        throw new UnprocessableEntityException('Failed to create new agent, duplicate email');
       }
 
       logger.error('Failed to create new agent. %o', error);

@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import { config } from '../config';
 
-import Question from './question.model';
 import Agent from './agent.model';
+import Message from './message.model';
 
 mongoose.Promise = global.Promise;
 const options = {
@@ -20,5 +20,5 @@ mongoose.connection.on('error', (err: any) => {
 
 export {
   Agent,
-  Question
+  Message
 }

@@ -13,3 +13,10 @@ export const ErrorHandler = (err: any, req: Request, res: Response, next: NextFu
     message: err.message
   });
 }
+
+export const AsyncError = (fn: any) => {
+  return function (req: Request, res: Response, next: NextFunction) {
+    return fn(req, res, next).catch(next);
+  };
+};
+

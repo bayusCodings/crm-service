@@ -1,16 +1,25 @@
+import { Types } from 'mongoose';
+
 interface IAgent {
-  firstName: string
-  lastName: string
-  email: string
+  _id: Types.ObjectId,
+  firstName: string;
+  lastName: string;
+  email: string;
+  activeMessageCount: number;
 }
 
-interface IQuestion {
-  firstName: string
-  lastName: string
-  email: string
+interface IMessage {
+  _id: Types.ObjectId,
+  userId: string;
+  agentId: Types.ObjectId | string
+  body: string;
+  date?: Date;
+  reply?: string;
+  replied?: boolean;
+  category?: string
 }
 
 export {
   IAgent,
-  IQuestion
+  IMessage
 }
