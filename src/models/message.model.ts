@@ -7,7 +7,7 @@ const messageSchema = new Schema<IMessage>(
       type: String,
       required: true
     },
-    agentId: {
+    agent: {
       type: SchemaTypes.ObjectId,
       ref: 'Agent'
     },
@@ -33,5 +33,10 @@ const messageSchema = new Schema<IMessage>(
   },
   { timestamps: true }
 );
+
+messageSchema.index({
+  userId: 'text',
+  body: 'text'
+});
 
 export default model<IMessage>('Message', messageSchema);

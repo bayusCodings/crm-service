@@ -19,7 +19,7 @@ class MessageService {
     logger.debug('MessageService.create(%o)', data);
     try {
       const agent = await this.getAvailableAgent()
-      data.agentId = agent._id;
+      data.agent = agent._id;
       data.date = new Date();
 
       const message = await MessageRepository.insert(data);
@@ -50,7 +50,7 @@ class MessageService {
         }
       );
       // Update agent active message
-      await AgentRepository.save(message.agentId, { $inc: { activeMessageCount: -1 } })
+      await AgentRepository.save(message.agent, { $inc: { activeMessageCount: -1 } })
 
       return asApiResponse(updatedMessage, 'Successfully replied to message')
     } catch(error: any) {
@@ -60,6 +60,33 @@ class MessageService {
 
       logger.error('Failed to reply to message. %o', error);
       throw new InternalServerException('An error occured while replying to message');
+    }
+  }
+
+  async fetchAgentMessages(agentId: string) {
+    logger.debug('MessageService.fetchAgentMessages(%s)', agentId);
+    try {
+      const messages = await MessageRepository.findAll({ agent: agentId });
+      return asApiResponse(messages, 'Successfully retrieved agent messages');
+    } catch(error: any) {
+      logger.error('Failed to retrieved agent messages. %o', error);
+      throw new InternalServerException('An error occured while retrieving agent messages');
+    }
+  }
+
+  async search(keyword: string) {
+    logger.debug('MessageService.search(%s)', keyword);
+    try {
+      const messages = await MessageRepository.findAll({
+        $or: [
+          { userId: { $regex: new RegExp(keyword), $options: 'i' } },
+          { body: { $regex: new RegExp(keyword), $options: 'i' } }
+        ]
+      }).populate('agent');
+      return asApiResponse(messages, 'Successfully retrieved to message');
+    } catch(error: any) {
+      logger.error('Failed to retrieved agent messages. %o', error);
+      throw new InternalServerException('An error occured while retrieving agent messages');
     }
   }
 }

@@ -12,12 +12,16 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:3021",
+  "host": "localhost:3201",
   "basePath": "/api/v1",
   "tags": [
     {
       "name": "Agent",
       "description": "List of endpoints for agents"
+    },
+    {
+      "name": "Message",
+      "description": "List of endpoints for messages"
     }
   ],
   "schemes": [
@@ -62,7 +66,6 @@
         }
       }
     },
-
     "/agents": {
       "get": {
         "tags": [
@@ -83,6 +86,158 @@
           }
         }
       }
+    },
+
+    "/message": {
+      "post": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "Create new message",
+        "description": "",
+        "operationId": "createMessage",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Message object that is required for store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "status": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/message/{id}": {
+      "put": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "Reply message",
+        "description": "",
+        "operationId": "replyMessage",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The message id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1
+            }
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "ReplyMessage object that is required for store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReplyMessage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "status": "success"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/message/agent/{agentId}": {
+      "get": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "Fetch agent messages",
+        "description": "",
+        "operationId": "fetchAgentMessages",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "agentId",
+            "description": "The agent id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "status": "success"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/message/search": {
+      "get": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "Search messages",
+        "description": "",
+        "operationId": "searchMessages",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "keyword",
+            "description": "The search keyword",
+            "schema": {
+              "type": "string",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "status": "success"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -96,6 +251,28 @@
           "type": "string"
         },
         "email": {
+          "type": "string"
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        }
+      }
+    },
+    "ReplyMessage": {
+      "type": "object",
+      "properties": {
+        "reply": {
           "type": "string"
         }
       }
