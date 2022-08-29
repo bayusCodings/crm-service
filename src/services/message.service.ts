@@ -3,6 +3,7 @@ import { IMessage } from '../models/interfaces';
 import { asApiResponse } from '../types/response.dto';
 import { InternalServerException, NotFoundException } from '../exceptions';
 import logger from '../logger';
+import csvParser from 'csvtojson';
 
 class MessageService {
   private async getAvailableAgent() {
@@ -25,7 +26,7 @@ class MessageService {
     try {
       const agent = await this.getAvailableAgent()
       data.agent = agent._id;
-      data.date = new Date();
+      data.date = (!data.date) ? new Date() : data.date;
 
       if (data.category) {
         data.category = await this.validateCategory(data.category)
@@ -96,6 +97,30 @@ class MessageService {
     } catch(error: any) {
       logger.error('Failed to retrieved agent messages. %o', error);
       throw new InternalServerException('An error occured while retrieving agent messages');
+    }
+  }
+
+  async importMessages(csvFilePath: string) {
+    logger.debug('MessageService.importMessages(%s)', csvFilePath);
+    try {
+      const messageList = await csvParser().fromFile(csvFilePath);
+      await Promise.all(
+        messageList.map(async (item, index) => {
+          const message: IMessage = {
+            userId: item['User ID'],
+            date: item['Timestamp (UTC)'],
+            body: item['Message Body'],
+            agent: ''
+          }
+
+          await this.create(message);
+        })
+      );
+
+      return asApiResponse({}, 'Successfully uploaded csv messages');
+    } catch(error: any) {
+      logger.error('Failed to import messages. %o', error);
+      throw new InternalServerException('An error occured while importing messages');
     }
   }
 }

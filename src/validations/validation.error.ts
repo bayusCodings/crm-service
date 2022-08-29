@@ -1,7 +1,7 @@
 import { NextFunction } from 'express';
 import { ValidationResult } from 'joi';
+import { BadRequestException } from '../exceptions';
 import logger from '../logger';
-import BadRequestException from '../exceptions/badrequest.exception';
 
 export const handleValidationError = (validationResult: ValidationResult, next: NextFunction) => {
   if (validationResult.error) {

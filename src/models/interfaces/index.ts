@@ -15,7 +15,7 @@ interface ICategory {
 }
 
 interface IMessage {
-  _id: Types.ObjectId,
+  _id?: Types.ObjectId,
   userId: string;
   agent: Types.ObjectId | string
   body: string;

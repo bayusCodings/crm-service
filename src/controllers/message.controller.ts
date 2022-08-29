@@ -28,6 +28,13 @@ class MessageController {
     const response = await MessageService.search(<string> phrase);
     res.status(200).json(response);
   }
+
+  async importMessages(req: Request, res: Response) {
+    const { csvFile } = res.locals;
+    
+    const response = await MessageService.importMessages(csvFile.filepath)
+    res.status(201).json(response)
+  }
 }
 
 export default new MessageController();
