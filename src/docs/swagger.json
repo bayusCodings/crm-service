@@ -12,7 +12,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:3201",
+  "host": "branch-crm-services.herokuapp.com",
   "basePath": "/api/v1",
   "tags": [
     {
@@ -25,7 +25,7 @@
     }
   ],
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/agent": {

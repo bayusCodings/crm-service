@@ -22,5 +22,5 @@ docker-compose up
 
 ## API Documentation
 
-CRM Service: [http://localhost:3021/api-docs](http://localhost:3021/api-docs)
+CRM Service: [https://branch-crm-services.herokuapp.com/api-docs/](https://branch-crm-services.herokuapp.com/api-docs/)
 
