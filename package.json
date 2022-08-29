@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "prestart": "npm run build",
+    "prestart": "npm install && npm run build",
     "start": "node dist/server.js",
     "dev": "ts-node src/server.ts",
     "watch": "nodemon",
