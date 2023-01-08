@@ -20,7 +20,3 @@ Run the following commands to start the services locally
 docker-compose up
 ```
 
-## API Documentation
-
-CRM Service: [https://branch-crm-services.herokuapp.com/api-docs/](https://branch-crm-services.herokuapp.com/api-docs/)
-
